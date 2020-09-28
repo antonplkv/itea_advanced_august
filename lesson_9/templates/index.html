@@ -1,0 +1,15 @@
+<html>
+
+    <body>
+        <h1>Продукты в наличии:</h1>
+        <ul>
+            {% for product in products %}
+
+                {% if product == 'Banana'%}
+                -----------------
+                {% endif%}
+            <li> <a href="/products/{{product}}">{{product}}</a> </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
