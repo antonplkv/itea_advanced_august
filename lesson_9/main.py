@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -18,6 +18,16 @@ def hello(product_name=None):
         product['total_price'] = product['count'] * product['price']
         product['name'] = product_name if product_name in products_db else 'Несуществующая позиция'
         return render_template('product_page.html', product=product)
+
+
+persons_db = []
+
+
+@app.route('/persons', methods=['get', 'post'])
+def persons():
+    if request.method == 'POST':
+        persons_db.append(dict(request.form))
+    return render_template('persons.html', persons=persons_db)
 
 
 if __name__ == '__main__':

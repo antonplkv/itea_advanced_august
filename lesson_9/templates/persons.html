@@ -1,0 +1,14 @@
+<html>
+
+<body>
+    {% for person in persons %}
+        {{person.first_name}} {{person.age}} <br>
+    {% endfor %}
+    <form method="get">
+        <input type="text" name="first_name" placeholder="Введите своё имя"><br>
+        <input type="text" name="age" placeholder="Введите свой возраст"><br>
+        <input type="radio" name="agree" placeholder="Согласны ли Вы с условиями....?"><br>
+        <input type="submit">
+    </form>
+</body>
+</html>
