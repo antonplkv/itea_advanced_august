@@ -1,7 +1,9 @@
 from flask_restful import Resource
 from flask import request
+from marshmallow import ValidationError
 import json
 from models import User
+from schemas import UserSchema
 
 
 class UserResource(Resource):
@@ -11,12 +13,16 @@ class UserResource(Resource):
             data_result = User.objects.get(id=user_id)
         else:
             data_result = User.objects()
-        data_result = json.loads(data_result.to_json())
-        return data_result
+
+        return UserSchema().dump(data_result, many=True)
 
     def post(self):
-        user = User.objects.create(**request.json)
-        return json.loads(user.to_json())
+        try:
+            data = UserSchema().load(request.json)
+        except ValidationError as e:
+            return {'error': str(e)}
+        user = User.objects.create(**data)
+        return UserSchema().dump(user)
 
     def put(self, user_id):
         user = User.objects(id=user_id)
