@@ -12,14 +12,21 @@ bot = TeleBot(TOKEN)
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    nice = KeyboardButton(text=NICE_MOOD, request_contact=True)
-    bad = KeyboardButton(text=BAD_MOOD, request_location=True)
+    nice = KeyboardButton(text=NICE_MOOD)
+    bad = KeyboardButton(text=BAD_MOOD)
     kb.add(nice, bad)
     bot.send_message(
         message.chat.id,
         'Как Ваше настроение?',
         reply_markup=kb
     )
+
+
+@bot.message_handler(content_types=['contact'])
+def handle_contact(message):
+    print(message.contact)
+    print(message.contact.phone_number)
+    print(message.contact.first_name)
 
 
 @bot.message_handler(func=lambda m: m.text in (BAD_MOOD, NICE_MOOD))
@@ -58,9 +65,9 @@ def handle_hello(message):
     )
 
 
-@bot.message_handler(content_types=['text'])
-def handle_text(message):
-    bot.send_message(message.chat.id, 'Спасибо за сообщение!')
+# @bot.message_handler(content_types=['text'])
+# def handle_text(message):
+#     bot.send_message(message.chat.id, 'Спасибо за сообщение!')
 
 
 @bot.message_handler(content_types=['text'])
